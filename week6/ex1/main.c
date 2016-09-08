@@ -3,25 +3,34 @@
 #include <stdio.h>
 #include <sys/signal.h>
 #include <stdlib.h>
+#include <wait.h>
 
 void main(int argv, char* argc[])
 {
-    system("ps");
     pid_t process = fork();
+
+    int wait_for_child = atoi(argc[1]);
+
+    if(wait_for_child) {
+        int exit_status;
+        if(waitpid(process, &exit_status, 0)) {
+            printf("Parent: (%d) \n", getpid());
+        }
+    } else {
+        printf("Parent: (%d) \n", getpid());
+    }
 
     // Child
     if(process == 0)
     {
-        printf("Child cloned: (%d) \n", getpid());
+        printf("Child: (%d) \n", getpid());
         kill(process, SIGKILL);
+        printf("child killed \n");
     }
-    // Parent
+    // Parent - wait for child
     else if(process > 0)
     {
-        printf("Hello daddy: (%d) \n", getpid());
         kill(process, SIGKILL);
+        printf("parent killed \n");
     }
-
-    system("ps");
-    sleep(10);
 }
