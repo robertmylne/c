@@ -5,32 +5,39 @@
 #include <stdlib.h>
 #include <wait.h>
 
-void main(int argv, char* argc[])
+void main(int argv, char *argc[])
 {
+    // Protect against zombie processes
+    signal(SIGCHLD, SIG_IGN);
+
     pid_t process = fork();
 
     int wait_for_child = atoi(argc[1]);
 
-    if(wait_for_child) {
-        int exit_status;
-        if(waitpid(process, &exit_status, 0)) {
-            printf("Parent: (%d) \n", getpid());
-        }
-    } else {
-        printf("Parent: (%d) \n", getpid());
-    }
-
     // Child
-    if(process == 0)
+    if (process == 0)
     {
         printf("Child: (%d) \n", getpid());
-        kill(process, SIGKILL);
-        printf("child killed \n");
+        exit(0);
     }
-    // Parent - wait for child
-    else if(process > 0)
+    // Parent
+    else if (process > 0)
     {
-        kill(process, SIGKILL);
-        printf("parent killed \n");
+        // Don't wait for child
+        if (wait_for_child)
+        {
+            if (wait(NULL)) {
+                printf("Waited Parent: (%d) \n", getpid());
+                kill(process, SIGKILL);
+                printf("Killed: (%d) \n", getpid());
+            }
+        }
+        // Wait for child to be killed
+        else
+        {
+            printf("Parent: (%d) \n", getpid());
+            kill(process, SIGKILL);
+            printf("Killed: (%d) \n", getpid());
+        }
     }
 }
