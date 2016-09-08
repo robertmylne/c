@@ -1,0 +1,4 @@
+netstat -nao | find "1067"
+taskkill /F /PID 3280
+
+telnet localhost 1067

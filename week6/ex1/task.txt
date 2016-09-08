@@ -1,0 +1,8 @@
+1. Using fork / spawn write a program that creates a copy of itself and then prints out “child cloned” and terminates.
+2. The cloned program prints out either “hello daddy” or “where’s my daddy?” and terminates.
+3. The parent program takes a command line integer argument that determines:
+            - if it waits for the child to terminate before printing out the “child cloned” message or
+            - if  it prints it out as soon as the child is spawned.
+4. A command line value of  1 means wait for the child message; a value of 0 means print out before the child message.
+
+Make the server be able to run on both Win32 and Unix operating systems.

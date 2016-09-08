@@ -1,0 +1,7 @@
+1. Write a program that takes a command line argument that may be any valid shell command.
+
+2. Your program will then execute the shell command.
+
+3. When that is finished will print out the exit status of the executed command.
+
+4. Make the client be able to run on both Win32 and Unix operating systems.

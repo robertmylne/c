@@ -1,0 +1,4 @@
+1. Write a program that takes an integer command line argument
+2. Creates an environment variable called “Number”
+3. Assigns to it the command line value.
+4. Write another program that prints out the value of the “Number” environment variable.
